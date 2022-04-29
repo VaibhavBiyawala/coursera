@@ -16,20 +16,20 @@
 <body>
 
 <div class="container mt-3">
-  <h3>Small Modal Example</h3>
-  <p>Click on the button to open the modal.</p>
-  
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-    Open modal
+  <h3 style="text-align: center;">Welcome To Employe Management System</h3>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" id="add">
+    Add Employe
   </button>
   <div class="mt-3">
   	<table class="size">
   		<thead>
   			<tr>
   				<th>ID</th>
-  				<th>UserName</th>
-  				<th>Password</th>
-  				<th>Remenber</th>
+          <th>Name</th>
+  				<th>Gmail</th>
+  				<th>Brithday</th>
+          <!-- <th>Gender</th> -->
+  				<th>Remember</th>
   				<th>Action</th>
   			</tr>	
   		</thead>
@@ -47,7 +47,7 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Modal Heading</h4>
+        <h4 class="modal-title">Add Employe Details</h4>
         <button type="button" class="btn-close" onClick="reset()" data-bs-dismiss="modal"></button>
       </div>
 
@@ -55,8 +55,20 @@
       <div class="modal-body">
         <form>
     <div class="mb-3 mt-3">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" id="name" placeholder="Enter your name" name="name">
+    </div>
+    <div class="mb-3 mt-3">
       <label for="email">Email:</label>
       <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+    </div>
+     <!-- <div class="mb-3 mt-3">
+      <label for="gender">Gender:</label>&emsp;&emsp;
+      <span>Male<input type="radio" id="radio1" name="radio" value="Male" checked>&emsp;&emsp;Female<input type="radio" id="radio2" name="radio" value="Female"></span>
+    </div> -->
+     <div class="mb-3 mt-3">
+        <label for="birthday">Birthday:</label>
+        <input type="date" id="birthday" name="birthday">
     </div>
     <div class="mb-3">
       <label for="pwd">Password:</label>
@@ -109,30 +121,34 @@
     displayTable();
   })
   $("#btnsubmit").on("click", function(){
-    debugger
+    var name = $("#name").val();  
     var email = $("#email").val();
+    var birthday = $("#birthday").val();
     var password = $("#pwd").val();
     var remember = $("#remember").prop("checked");
+    console.log(ge);
     array = JSON.parse(localStorage.getItem("UserArray")) == null ? [] : JSON.parse(localStorage.getItem("UserArray"));
     if($(this).attr("userId") != 0){
       var id = $("#btnsubmit").attr("userId");
       
       const newArr = array.map(obj => {
         if(obj.ID == id) {
-          return {...obj, email: email,password:password,remember:remember};
+          return {...obj, name:name,email:email,password:password,birthday:birthday,remember:remember};
         }
 
         return obj;
       });
-debugger
+
       localStorage.setItem("UserArray", JSON.stringify(newArr));
     }
     else{
-        debugger
+       
         var selected = array[array.length -1];
         var arrayObj = {
           ID : selected != undefined ? selected.ID+1 : 1,
+          name : name,
           email : email,
+          birthday : birthday,
           password : password,
           remember : remember
         };
@@ -149,7 +165,9 @@ debugger
   }
 
   function reset(){
+    $("#name").val("");
     $("#email").val("");
+    $("#birthday").val("");
     $("#pwd").val("");
     $("#remember").prop("checked",false);
     $("#btnsubmit").attr("userId",0);
@@ -164,8 +182,9 @@ debugger
       var arr = array[i];
       html += "<tr id='"+ arr.ID+"'>";
       html += "<td style='text-align:center;'>" + arr.ID +"</td>";
+      html += "<td style='text-align:left;'>"+ arr.name +"</td>";
       html += "<td style='text-align:left;'>"+ arr.email +"</td>";
-      html += "<td>"+ arr.password +"</td>";
+      html += "<td style='text-align:left;'>"+ arr.birthday +"</td>";
       html += "<td>"+ arr.remember +"</td>";
       html += "<td style='text-align:center;'><button style='margin-right: 10px;' class='btn btn-primary' onClick='editUser("+arr.ID+")'>Edit</button><button class='btn btn-danger' onClick='deletePopup("+arr.ID+")'>Delete</button></td>";     
       html += "</tr>";
@@ -182,8 +201,9 @@ debugger
       if(val.ID == id)
         return true;
     });
-    
+    $("#name").val(__FOUND.name);
     $("#email").val(__FOUND.email);
+    $("#birthday").val(__FOUND.birthday);
     $("#pwd").val(__FOUND.password);
     $("#remember").prop("checked",__FOUND.remember);
     $("#btnsubmit").attr("userId",id);
