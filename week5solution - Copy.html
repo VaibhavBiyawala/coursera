@@ -126,7 +126,6 @@
     var birthday = $("#birthday").val();
     var password = $("#pwd").val();
     var remember = $("#remember").prop("checked");
-    console.log(ge);
     array = JSON.parse(localStorage.getItem("UserArray")) == null ? [] : JSON.parse(localStorage.getItem("UserArray"));
     if($(this).attr("userId") != 0){
       var id = $("#btnsubmit").attr("userId");
