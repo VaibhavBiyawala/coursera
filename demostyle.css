@@ -3,6 +3,7 @@ thead {
 	text-align: center;
 }
 
+
 body {
 	background-color: rgb(200,200,200);
 }
@@ -13,9 +14,15 @@ table,tr,th,td{
 }
 
 .size {
-	width:90%;
+	width:100%;
 }
 
 tbody {
 	background-color: rgb(200,215,210);
+}
+
+#add {
+	float: right;
+	margin:20px;
+	margin-right: -2px;
 }
